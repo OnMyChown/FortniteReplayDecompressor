@@ -1,9 +1,11 @@
-﻿using FortniteReplayReader.Models;
+using FortniteReplayReader.Models;
 using FortniteReplayReader.Models.NetFieldExports;
 using FortniteReplayReader.Models.NetFieldExports.Weapons;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Unreal.Core.Models;
 
 namespace FortniteReplayReader;
 
@@ -217,6 +219,7 @@ public class FortniteReplayBuilder
             _players[channelIndex] = playerData;
         }
 
+
         if (state.RebootCounter > 0 && state.RebootCounter > playerData.RebootCounter)
         {
             playerData.RebootCounter = state.RebootCounter;
@@ -282,13 +285,17 @@ public class FortniteReplayBuilder
             if (_players.TryGetValue(actorChannelIndex, out var finisherOrDownerData))
             {
                 entry.FinisherOrDowner = finisherOrDownerData.Id;
-                entry.FinisherOrDownerName = finisherOrDownerData.PlayerId;
+                entry.FinisherOrDownerName = finisherOrDownerData.PlayerName;
                 entry.FinisherOrDownerIsBot = finisherOrDownerData.IsBot;
+                entry.FinisherOrDownerId = finisherOrDownerData.PlayerId;
+                entry.FinisherOrDownerTeamIndex = finisherOrDownerData.TeamIndex;
             }
         }
 
-        entry.PlayerId = data.Id;
-        entry.PlayerName = data.PlayerId;
+        entry.TeamIndex = data.TeamIndex;
+
+        entry.PlayerId = data.PlayerId;
+        entry.PlayerName = data.PlayerName;
         entry.PlayerIsBot = data.IsBot;
 
         entry.Distance ??= state.Distance;
@@ -324,6 +331,7 @@ public class FortniteReplayBuilder
                 {
                     ChannelId = channelIndex,
                     PlayerPawn = pawn
+
                 });
 
                 return;
@@ -339,6 +347,8 @@ public class FortniteReplayBuilder
                 return;
             }
         }
+
+
 
         playerState.Cosmetics.Character ??= pawn.Character?.Name;
         playerState.Cosmetics.BannerColorId ??= pawn.BannerColorId;
