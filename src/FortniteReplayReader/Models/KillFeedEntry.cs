@@ -1,17 +1,20 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Unreal.Core.Models;
 
 namespace FortniteReplayReader.Models;
 
 public class KillFeedEntry
 {
-    public int? PlayerId { get; set; }
+    public string? PlayerId { get; set; }
     public string? PlayerName { get; set; }
     public bool PlayerIsBot { get; set; }
 
     public int? FinisherOrDowner { get; set; }
     public string? FinisherOrDownerName { get; set; }
     public bool FinisherOrDownerIsBot { get; set; }
+    public string? FinisherOrDownerId { get; set; }
+    public int? FinisherOrDownerTeamIndex { get; set; }
+    public int? TeamIndex { get; set; }
 
     public float? ReplicatedWorldTimeSeconds { get; set; }
     public double? ReplicatedWorldTimeSecondsDouble { get; set; }
